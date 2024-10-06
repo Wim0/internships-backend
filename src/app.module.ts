@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 //Entities
-import { entities } from '../src/internship/domain/entities/_index';
+import { entities } from './internship/domain/entities/_index';
 //Controllers
 import { AppController } from './app.controller';
 import { ScheduleModule } from '@nestjs/schedule';
-import { controllers } from '../src/internship/infrastructure/controllers/_index';
+import { controllers } from './internship/infrastructure/controllers/_index';
 //Providers
-import { providers } from '../src/internship/infrastructure/repositories/_index';
+import { providers } from './internship/infrastructure/repositories/_index';
 
 @Module({
   imports: [

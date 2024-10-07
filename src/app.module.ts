@@ -20,14 +20,8 @@ import { providers } from './internship/infrastructure/repositories/_index';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get('DB_PORT'),
-        username: config.get('DB_USER'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
-        schema: config.get('DB_SCHEMA'),
+        url: config.get('DATABASE_URL'),
         entities,
-        synchronize: true, //Nota mental: usar "synchronize: true" solo en desarrollo, no en produccion
       }),
     }),
     TypeOrmModule.forFeature(entities),

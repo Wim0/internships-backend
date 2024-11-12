@@ -18,9 +18,9 @@ import { providers } from './internship/infrastructure/repositories/_index';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+      useFactory: () => ({
         type: 'postgres',
-        url: config.get('DATABASE_URL'),
+        url: process.env.DATABASE_URL,
         entities,
       }),
     }),

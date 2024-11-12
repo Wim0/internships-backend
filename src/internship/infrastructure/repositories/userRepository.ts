@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from 'src/internship/domain/entities/userEntity';
 //Interfaces
 import { IUserRepository } from 'src/internship/domain/interfaces/IUserRepository';
+import { UserDTO } from 'src/internship/application/models/userDTO';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -39,7 +40,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async createUserAsync(user: UserEntity): Promise<void> {
+  async createUserAsync(user: UserEntity): Promise<UserEntity> {
     try {
       await this._userEntity.save(user);
     } catch (err) {
@@ -48,7 +49,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async editUserAsync(userId: number, user: UserEntity): Promise<void> {
+  async editUserAsync(userId: number, user: UserEntity): Promise<UserDTO> {
     try {
       await this._userEntity.update(userId, user);
     } catch (err) {
@@ -57,7 +58,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async deleteUserAsync(userId: number): Promise<void> {
+  async deleteUserAsync(userId: number): Promise<boolean> {
     try {
       await this._userEntity.delete(userId);
     } catch (err) {

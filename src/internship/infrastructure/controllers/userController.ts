@@ -11,43 +11,42 @@ import {
   Logger,
   Inject,
 } from '@nestjs/common';
-//DTOs
 //Interfaces
-import { IUserRepository } from '../../domain/interfaces/IUserRepository';
+import { IUserService } from 'src/internship/domain/interfaces/IUserService';
 //Entities(quizá hay que cambiarlo por un DTO)
 import { UserEntity } from '../../domain/entities/userEntity';
 
 @Controller('user')
 export class UserController {
-  private readonly _userRepository: IUserRepository;
-  private readonly _logger = new Logger('ActionController');
+  private readonly _userService: IUserService;
+  private readonly _logger = new Logger('ServiceController');
 
-  constructor(@Inject(TYPES.IUserRepository) userRepository: IUserRepository) {
-    this._userRepository = userRepository;
+  constructor(@Inject(TYPES.IUserService) userService: IUserService) {
+    this._userService = userService;
   }
 
   @Get()
   findAll() {
-    return this._userRepository.findAllUsersAsync();
+    return this._userService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this._userRepository.findUserByIdAsync(+id);
+    return this._userService.findOne(+id);
   }
 
   @Post()
   create(@Body() user: UserEntity) {
-    return this._userRepository.createUserAsync(user);
+    return this._userService.create(user);
   }
 
   @Put(':id')
   edit(@Param('id') id: string, @Body() user: UserEntity) {
-    return this._userRepository.editUserAsync(+id, user);
+    return this._userService.edit(+id, user);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this._userRepository.deleteUserAsync(+id);
+    return this._userService.delete(+id);
   }
 }

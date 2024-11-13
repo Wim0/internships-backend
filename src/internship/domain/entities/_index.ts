@@ -1,4 +1,5 @@
 import { UserEntity } from './userEntity';
+import { OrganizationEntity } from './organizationEntity';
 
-export const entities = [UserEntity];
-export { UserEntity };
+export const entities = [UserEntity, OrganizationEntity];
+export { UserEntity, OrganizationEntity };

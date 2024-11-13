@@ -8,7 +8,6 @@ import {
   Body,
   Param,
   Delete,
-  Logger,
   Inject,
 } from '@nestjs/common';
 //Interfaces
@@ -19,7 +18,6 @@ import { UserEntity } from '../../domain/entities/userEntity';
 @Controller('user')
 export class UserController {
   private readonly _userService: IUserService;
-  private readonly _logger = new Logger('ServiceController');
 
   constructor(@Inject(TYPES.IUserService) userService: IUserService) {
     this._userService = userService;

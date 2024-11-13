@@ -1,6 +1,11 @@
 export class UserDTO {
   id: number;
   name: string;
+  lastName: string;
   email: string;
-  createdAt: Date;
+  organizationId: number;
+  careerId: number;
+  isAdmin: boolean;
+  rol: string;
+  isVerified: boolean;
 }

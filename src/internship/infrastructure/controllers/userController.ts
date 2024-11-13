@@ -26,27 +26,27 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this._userService.findAll();
+  findAllUsers() {
+    return this._userService.findAllUsers();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this._userService.findOne(+id);
+  findUserById(@Param('id') id: string) {
+    return this._userService.findUserById(+id);
   }
 
   @Post()
-  create(@Body() user: UserEntity) {
-    return this._userService.create(user);
+  createUser(@Body() user: UserEntity) {
+    return this._userService.createUser(user);
   }
 
   @Put(':id')
-  edit(@Param('id') id: string, @Body() user: UserEntity) {
-    return this._userService.edit(+id, user);
+  editUserById(@Param('id') id: string, @Body() user: UserEntity) {
+    return this._userService.editUserById(+id, user);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this._userService.delete(+id);
+  deleteUserById(@Param('id') id: string) {
+    return this._userService.deleteUserById(+id);
   }
 }

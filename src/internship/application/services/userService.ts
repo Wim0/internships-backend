@@ -1,7 +1,12 @@
 import { UserEntity } from '../../domain/entities/userEntity';
 import TYPES from '../../../types';
 //Packages
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 //DTOs
 import { UserDTO } from '../../application/models/userDTO';
 import { CreateUserDTO } from '../../application/models/createUserDTO';
@@ -17,15 +22,35 @@ export class UserService implements IUserService {
     this._userRepository = userRepository;
   }
 
-  async create(createUserDTO: CreateUserDTO): Promise<UserEntity> {
+  async createUser(createUserDTO: CreateUserDTO): Promise<UserEntity> {
     try {
+      const currentDate = new Date();
+
       const user = new UserEntity();
       user.name = createUserDTO.name;
+      user.lastName = createUserDTO.lastName;
       user.email = createUserDTO.email;
       user.password = createUserDTO.password;
+      user.organizationId = createUserDTO.organizationId
+        ? createUserDTO.organizationId
+        : null;
+      user.careerId = createUserDTO.careerId ? createUserDTO.careerId : null;
+      user.isAdmin = createUserDTO.isAdmin ? true : false;
+      user.rol = createUserDTO.rol;
+      user.isVerified = false;
+      user.createdAt = currentDate;
 
-      const userCreated = await this._userRepository.createUserAsync(user);
+      const userAlreadyExists = await this._userRepository.findUserByEmail(
+        createUserDTO.email,
+      );
+      if (userAlreadyExists) {
+        console.log('User already exists');
+        throw new ConflictException('User with this email already exists');
+      }
+
+      const userCreated = await this._userRepository.createUser(user);
       if (!userCreated) {
+        console.log('User not created');
         throw new NotFoundException();
       }
 
@@ -36,8 +61,8 @@ export class UserService implements IUserService {
     }
   }
 
-  async findAll(): Promise<UserDTO[]> {
-    const users = await this._userRepository.findAllUsersAsync();
+  async findAllUsers(): Promise<UserDTO[]> {
+    const users = await this._userRepository.findAllUsers();
     if (!users) {
       throw new NotFoundException();
     }
@@ -45,16 +70,21 @@ export class UserService implements IUserService {
       const userDTO = new UserDTO();
       userDTO.id = user.id;
       userDTO.name = user.name;
+      userDTO.lastName = user.lastName;
       userDTO.email = user.email;
-      userDTO.createdAt = user.createdAt;
+      userDTO.organizationId = user.organizationId;
+      userDTO.careerId = user.careerId;
+      userDTO.isAdmin = user.isAdmin;
+      userDTO.rol = user.rol;
+      userDTO.isVerified = user.isVerified;
       return userDTO;
     });
 
     return userList;
   }
 
-  async findOne(id: number): Promise<UserDTO> {
-    const user = await this._userRepository.findUserByIdAsync(id);
+  async findUserById(id: number): Promise<UserDTO> {
+    const user = await this._userRepository.findUserById(id);
     if (!user) {
       throw new NotFoundException();
     }
@@ -63,24 +93,23 @@ export class UserService implements IUserService {
     userFound.id = user.id;
     userFound.name = user.name;
     userFound.email = user.email;
-    userFound.createdAt = user.createdAt;
 
     return userFound;
   }
 
-  async edit(id: number, user: UserEntity): Promise<UserDTO> {
-    const userEdited = await this._userRepository.editUserAsync(id, user);
+  async editUserById(id: number, user: UserEntity): Promise<UserDTO> {
+    const userEdited = await this._userRepository.editUserById(id, user);
     if (!userEdited) {
       throw new NotFoundException();
     }
     return userEdited;
   }
 
-  async delete(id: number): Promise<boolean> {
-    const user = await this.findOne(id);
+  async deleteUserById(id: number): Promise<boolean> {
+    const user = await this.findUserById(id);
     if (!user) {
       throw new NotFoundException();
     }
-    return await this._userRepository.deleteUserAsync(user.id);
+    return await this._userRepository.deleteUserByid(user.id);
   }
 }

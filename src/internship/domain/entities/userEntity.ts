@@ -17,10 +17,10 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   organizationId: number;
 
-  @Column()
+  @Column({ nullable: true })
   careerId: number;
 
   @Column()

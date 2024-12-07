@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { OrganizationEntity } from './organizationEntity';
 
 @Entity('user')
 export class UserEntity {
@@ -29,9 +30,12 @@ export class UserEntity {
   @Column()
   rol: string;
 
-  @Column()
+  @Column() ß;
   isVerified: boolean;
 
   @Column()
   createdAt: Date;
+
+  @ManyToOne(() => OrganizationEntity, (organization) => organization.users)
+  organization: OrganizationEntity;
 }

@@ -79,7 +79,7 @@ export class UserService implements IUserService {
         : null;
       user.facultyId = createUserDTO.facultyId ? createUserDTO.facultyId : null;
       user.isAdmin = createUserDTO.isAdmin ? true : false;
-      user.rol = createUserDTO.rol;
+      user.rol = createUserDTO.rol.toLocaleLowerCase();
       user.isVerified = false;
       user.createdAt = currentDate;
 
@@ -160,7 +160,7 @@ export class UserService implements IUserService {
     return userFound;
   }
 
-  async editUserById(id: number, user: UserEntity): Promise<UserDTO> {
+  async editUserById(id: number, user: UserDTO): Promise<UserDTO> {
     const userEdited = await this._userRepository.editUserById(id, user);
     if (!userEdited) {
       throw new NotFoundException();

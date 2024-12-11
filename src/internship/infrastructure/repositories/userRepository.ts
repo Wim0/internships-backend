@@ -44,7 +44,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async findUserById(id: number): Promise<UserEntity> {
+  async findUserById(id: number): Promise<UserDTO> {
     try {
       const item = await this._userEntity.findOne({
         where: { id },
@@ -83,9 +83,13 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async editUserById(userId: number, user: UserEntity): Promise<UserDTO> {
+  async editUserById(userId: number, user: UserDTO): Promise<UserDTO> {
     try {
       await this._userEntity.update(userId, user);
+      const updatedUser = await this._userEntity.findOne({
+        where: { id: userId },
+      });
+      return updatedUser;
     } catch (err) {
       console.error(`Error: ${err}`);
       return null;

@@ -3,7 +3,7 @@ import TYPES from '../../../types';
 import {
   Controller,
   Get,
-  Put,
+  Patch,
   Post,
   Body,
   Param,
@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 //DTOs
 import { LoginUserDTO } from '../../application/models/loginUserDTO';
+import { UserDTO } from '../../application/models/userDTO';
 //Interfaces
 import { IUserService } from 'src/internship/domain/interfaces/IUserService';
-//Entities(quizá hay que cambiarlo por un DTO)
+//Entities
 import { UserEntity } from '../../domain/entities/userEntity';
 
 @Controller('user')
@@ -45,8 +46,8 @@ export class UserController {
     return this._userService.createUser(user);
   }
 
-  @Put(':id')
-  editUserById(@Param('id') id: string, @Body() user: UserEntity) {
+  @Patch(':id')
+  editUserById(@Param('id') id: string, @Body() user: UserDTO) {
     return this._userService.editUserById(+id, user);
   }
 

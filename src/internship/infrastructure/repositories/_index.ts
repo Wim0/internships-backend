@@ -4,11 +4,13 @@ import { UserService } from 'src/internship/application/services/userService';
 import { OrganizationService } from 'src/internship/application/services/organizationService';
 import { FacultyService } from 'src/internship/application/services/facultyService';
 import { AdminService } from 'src/internship/application/services/adminService';
+import { PracticeService } from 'src/internship/application/services/practiceService';
 //Repositories
 import { UserRepository } from './userRepository';
 import { OrganizationRepository } from './organizationRepository';
 import { FacultyRepository } from './facultyRepository';
 import { AdminRepository } from './adminRepository';
+import { PracticeRepository } from './practiceRepository';
 
 export const providers = [
   {
@@ -42,5 +44,13 @@ export const providers = [
   {
     provide: TYPES.IAdminRepository,
     useClass: AdminRepository,
+  },
+  {
+    provide: TYPES.IPracticeService,
+    useClass: PracticeService,
+  },
+  {
+    provide: TYPES.IPracticeRepository,
+    useClass: PracticeRepository,
   },
 ];

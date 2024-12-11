@@ -4,7 +4,7 @@ export class UserDTO {
   lastName: string;
   email: string;
   organizationId: number;
-  careerId: number;
+  facultyId: number;
   isAdmin: boolean;
   rol: string;
   isVerified: boolean;

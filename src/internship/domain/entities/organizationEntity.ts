@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { UserEntity } from './userEntity';
+import { FacultyEntity } from './facultyEntity';
 @Entity('organization')
 export class OrganizationEntity {
   @PrimaryGeneratedColumn()
@@ -9,8 +10,11 @@ export class OrganizationEntity {
   name: string;
 
   @Column()
-  country: number;
-
-  @Column()
   createdAt: Date;
+
+  @OneToMany(() => UserEntity, (user) => user.organization)
+  users: UserEntity[];
+
+  @OneToMany(() => FacultyEntity, (faculty) => faculty.organization)
+  faculties: FacultyEntity[];
 }

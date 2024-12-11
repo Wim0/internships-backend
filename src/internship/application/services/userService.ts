@@ -1,15 +1,18 @@
 import { UserEntity } from '../../domain/entities/userEntity';
 import TYPES from '../../../types';
+import { JwtService } from '@nestjs/jwt';
 //Packages
 import {
   ConflictException,
   Inject,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 //DTOs
 import { UserDTO } from '../../application/models/userDTO';
 import { CreateUserDTO } from '../../application/models/createUserDTO';
+import { LoginUserDTO } from '../../application/models/loginUserDTO';
 //Interfaces
 import { IUserRepository } from '../../domain/interfaces/IUserRepository';
 import { IUserService } from '../../domain/interfaces/IUserService';
@@ -21,6 +24,7 @@ export class UserService implements IUserService {
   private readonly _userRepository: IUserRepository;
   private readonly _organizationRepository: IOrganizationRepository;
   private readonly _facultyRepository: IFacultyRepository;
+  private readonly jwtService: JwtService;
 
   constructor(
     @Inject(TYPES.IUserRepository)
@@ -29,10 +33,36 @@ export class UserService implements IUserService {
     organizationRepository: IOrganizationRepository,
     @Inject(TYPES.IFacultyRepository)
     facultyRepository: IFacultyRepository,
+    jwtService: JwtService, // Asegúrate de que JwtService esté inyectado aquí
   ) {
     this._userRepository = userRepository;
     this._organizationRepository = organizationRepository;
     this._facultyRepository = facultyRepository;
+    this.jwtService = jwtService; // Asigna jwtService al campo de clase
+  }
+
+  async login(loginUserDTO: LoginUserDTO): Promise<{ accessToken: string }> {
+    const user = await this._userRepository.findUserByEmailAndPassword(
+      loginUserDTO.email,
+      loginUserDTO.password,
+    );
+    if (!user || user.password !== loginUserDTO.password) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const payload = {
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      lastName: user.lastName,
+      rol: user.rol,
+      organizationId: user.organizationId,
+      facultyId: user.facultyId,
+      isAdmin: user.isAdmin,
+      isVerified: user.isVerified,
+    };
+    const accessToken = this.jwtService.sign(payload);
+
+    return { accessToken };
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<UserEntity> {

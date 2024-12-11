@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
@@ -23,6 +24,10 @@ import { providers } from './internship/infrastructure/repositories/_index';
         url: process.env.DATABASE_URL,
         entities,
       }),
+    }),
+    JwtModule.register({
+      secret: 'yourSecretKey', // Cambia esto por una clave secreta segura
+      signOptions: { expiresIn: '60m' },
     }),
     TypeOrmModule.forFeature(entities),
     ScheduleModule.forRoot(),

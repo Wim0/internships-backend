@@ -68,6 +68,21 @@ export class UserRepository implements IUserRepository {
     }
   }
 
+  async findUserByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<UserEntity> {
+    try {
+      const item = await this._userEntity.findOne({
+        where: { email, password },
+      });
+      return item;
+    } catch (err) {
+      console.error(`Error: ${err}`);
+      return null;
+    }
+  }
+
   async editUserById(userId: number, user: UserEntity): Promise<UserDTO> {
     try {
       await this._userEntity.update(userId, user);

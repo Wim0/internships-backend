@@ -5,6 +5,10 @@ export interface IUserRepository {
   findAllUsers(): Promise<UserEntity[]>;
   findUserById(id: number): Promise<UserEntity>;
   findUserByEmail(email: string): Promise<UserDTO>;
+  findUserByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<UserEntity>;
   createUser(user: UserEntity): Promise<UserEntity>;
   editUserById(userId: number, user: UserEntity): Promise<UserDTO>;
   deleteUserByid(userId: number): Promise<boolean>;

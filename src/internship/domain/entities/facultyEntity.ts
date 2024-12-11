@@ -16,6 +16,9 @@ export class FacultyEntity {
   @Column()
   name: string;
 
+  @Column()
+  organizationId: number;
+
   @ManyToOne(() => OrganizationEntity, (organization) => organization.faculties)
   organization: OrganizationEntity;
 

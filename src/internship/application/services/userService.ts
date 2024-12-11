@@ -80,7 +80,7 @@ export class UserService implements IUserService {
       user.facultyId = createUserDTO.facultyId ? createUserDTO.facultyId : null;
       user.isAdmin = createUserDTO.isAdmin ? true : false;
       user.rol = createUserDTO.rol.toLocaleLowerCase();
-      user.isVerified = false;
+      user.isVerified = true;
       user.createdAt = currentDate;
 
       // Verifica si la organización y la facultad existen
@@ -155,7 +155,10 @@ export class UserService implements IUserService {
     const userFound = new UserDTO();
     userFound.id = user.id;
     userFound.name = user.name;
+    userFound.lastName = user.lastName;
     userFound.email = user.email;
+    userFound.organizationId = user.organizationId;
+    userFound.facultyId = user.facultyId;
 
     return userFound;
   }
@@ -169,10 +172,10 @@ export class UserService implements IUserService {
   }
 
   async deleteUserById(id: number): Promise<boolean> {
-    const user = await this.findUserById(id);
+    const user = await this._userRepository.findUserById(id);
     if (!user) {
       throw new NotFoundException();
     }
-    return await this._userRepository.deleteUserByid(user.id);
+    return await this._userRepository.deleteUserById(user.id);
   }
 }

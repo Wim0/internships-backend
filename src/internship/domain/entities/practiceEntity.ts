@@ -15,7 +15,7 @@ export class PracticeEntity {
   @Column()
   isSolicited: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   isAccepted: boolean;
 
   @Column({ nullable: true })

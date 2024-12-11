@@ -20,6 +20,12 @@ export class PracticeRepository implements IPracticeRepository {
     return this._practiceEntity.find();
   }
 
+  async findPracticesByUserId(userId: number): Promise<PracticeEntity[]> {
+    return this._practiceEntity.find({
+      where: [{ estudianteId: userId }, { professorId: userId }],
+    });
+  }
+
   async createPractice(practice: PracticeEntity): Promise<PracticeEntity> {
     return this._practiceEntity.save(practice);
   }

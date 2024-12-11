@@ -7,6 +7,8 @@ export const TYPES = {
   IFacultyRepository: Symbol('IFacultyRepository'),
   IAdminService: Symbol('IAdminService'),
   IAdminRepository: Symbol('IAdminRepository'),
+  IPracticeService: Symbol('IPracticeService'),
+  IPracticeRepository: Symbol('IPracticeRepository'),
 };
 
 export default TYPES;

@@ -31,7 +31,7 @@ export class PracticeService implements IPracticeService {
 
   async updatePractice(
     id: number,
-    practice: PracticeEntity,
+    practice: PracticeDTO,
   ): Promise<PracticeDTO> {
     return this._practiceRepository.updatePractice(id, practice);
   }

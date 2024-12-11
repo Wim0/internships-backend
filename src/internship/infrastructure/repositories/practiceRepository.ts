@@ -32,7 +32,7 @@ export class PracticeRepository implements IPracticeRepository {
 
   async updatePractice(
     id: number,
-    practice: PracticeEntity,
+    practice: PracticeDTO,
   ): Promise<PracticeDTO> {
     try {
       await this._practiceEntity.update(id, practice);

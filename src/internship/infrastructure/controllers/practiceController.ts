@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
 import TYPES from 'src/types';
 import { Inject } from '@nestjs/common';
 import { PracticeEntity } from '../../domain/entities/practiceEntity';
@@ -48,10 +48,10 @@ export class PracticeController {
     return this._practiceService.createPractice(practice);
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updatePractice(
     @Param('id') id: number,
-    @Body() practice: PracticeEntity,
+    @Body() practice: PracticeDTO,
   ): Promise<PracticeDTO> {
     return this._practiceService.updatePractice(id, practice);
   }

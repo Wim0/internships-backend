@@ -36,6 +36,9 @@ export class PracticeEntity {
   @Column({ nullable: true })
   companyEvaluation: number;
 
+  @Column({ nullable: true })
+  currentStep: number;
+
   @ManyToOne(() => UserEntity, (user) => user.practicesAsStudent)
   estudiante: UserEntity;
 

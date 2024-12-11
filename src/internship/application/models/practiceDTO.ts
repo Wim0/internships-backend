@@ -10,4 +10,5 @@ export class PracticeDTO {
   startDate?: Date;
   endDate?: Date;
   companyEvaluation?: number;
+  currentStep?: number;
 }

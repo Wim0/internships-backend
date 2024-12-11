@@ -8,6 +8,6 @@ export interface IUserService {
   createUser(createUserDTO: CreateUserDTO): Promise<UserEntity>;
   findAllUsers(): Promise<UserDTO[]>;
   findUserById(id: number): Promise<UserDTO>;
-  editUserById(id: number, user: UserEntity): Promise<UserDTO>;
+  editUserById(id: number, user: UserDTO): Promise<UserDTO>;
   deleteUserById(id: number): Promise<boolean>;
 }

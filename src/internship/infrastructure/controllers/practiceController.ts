@@ -4,19 +4,34 @@ import { Inject } from '@nestjs/common';
 import { PracticeEntity } from '../../domain/entities/practiceEntity';
 import { PracticeDTO } from 'src/internship/application/models/practiceDTO';
 import { IPracticeService } from 'src/internship/domain/interfaces/IPracticeService';
+import { IUserService } from 'src/internship/domain/interfaces/IUserService';
 
 @Controller('practice')
 export class PracticeController {
   private readonly _practiceService: IPracticeService;
+  private readonly _userService: IUserService;
 
   constructor(
     @Inject(TYPES.IPracticeService) practiceService: IPracticeService,
+    @Inject(TYPES.IUserService) userService: IUserService,
   ) {
     this._practiceService = practiceService;
+    this._userService = userService;
   }
   @Get()
-  async findAllPractices(): Promise<PracticeEntity[]> {
-    return this._practiceService.findAllPractices();
+  async findAllPractices(): Promise<any[]> {
+    const practices = await this._practiceService.findAllPractices();
+    return Promise.all(
+      practices.map(async (practice) => {
+        const estudianteData = await this._userService.findUserById(
+          practice.estudianteId,
+        );
+        return {
+          ...practice,
+          estudianteData,
+        };
+      }),
+    );
   }
 
   @Post()

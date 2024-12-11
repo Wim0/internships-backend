@@ -96,7 +96,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async deleteUserByid(userId: number): Promise<boolean> {
+  async deleteUserById(userId: number): Promise<boolean> {
     try {
       await this._userEntity.delete(userId);
     } catch (err) {

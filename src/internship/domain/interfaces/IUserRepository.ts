@@ -11,5 +11,5 @@ export interface IUserRepository {
   ): Promise<UserEntity>;
   createUser(user: UserEntity): Promise<UserEntity>;
   editUserById(userId: number, user: UserDTO): Promise<UserDTO>;
-  deleteUserByid(userId: number): Promise<boolean>;
+  deleteUserById(userId: number): Promise<boolean>;
 }

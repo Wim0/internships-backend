@@ -36,6 +36,13 @@ export class FacultyController {
     return await this._facultyService.findFacultyById(id);
   }
 
+  @Get('organization/:organizationId')
+  async getFacultiesByOrganizationId(
+    @Param('organizationId') organizationId: number,
+  ): Promise<FacultyEntity[]> {
+    return this._facultyService.findFacultiesByOrganizationId(organizationId);
+  }
+
   @Put(':id')
   async editFacultyById(
     @Param('id') id: number,

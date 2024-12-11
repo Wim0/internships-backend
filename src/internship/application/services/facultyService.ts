@@ -33,6 +33,14 @@ export class FacultyService implements IFacultyService {
     return await this._facultyRepository.findFacultyById(id);
   }
 
+  async findFacultiesByOrganizationId(
+    organizationId: number,
+  ): Promise<FacultyEntity[]> {
+    return await this._facultyRepository.findFacultiesByOrganizationId(
+      organizationId,
+    );
+  }
+
   async editFacultyById(
     id: number,
     createFacultyDTO: CreateFacultyDTO,

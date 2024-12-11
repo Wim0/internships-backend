@@ -27,6 +27,14 @@ export class FacultyRepository implements IFacultyRepository {
     return await this._facultyEntity.findOne({ where: { id } });
   }
 
+  async findFacultiesByOrganizationId(
+    organizationId: number,
+  ): Promise<FacultyEntity[]> {
+    return this._facultyEntity.find({
+      where: { organization: { id: organizationId } },
+    });
+  }
+
   async editFacultyById(
     id: number,
     faculty: FacultyEntity,

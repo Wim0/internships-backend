@@ -10,6 +10,8 @@ import {
   Delete,
   Inject,
 } from '@nestjs/common';
+//DTOs
+import { LoginUserDTO } from '../../application/models/loginUserDTO';
 //Interfaces
 import { IUserService } from 'src/internship/domain/interfaces/IUserService';
 //Entities(quizá hay que cambiarlo por un DTO)
@@ -21,6 +23,11 @@ export class UserController {
 
   constructor(@Inject(TYPES.IUserService) userService: IUserService) {
     this._userService = userService;
+  }
+
+  @Post('login')
+  async login(@Body() loginUserDTO: LoginUserDTO) {
+    return this._userService.login(loginUserDTO);
   }
 
   @Get()

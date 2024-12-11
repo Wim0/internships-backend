@@ -6,10 +6,14 @@ import { IFacultyRepository } from '../../domain/interfaces/IFacultyRepository';
 
 @Injectable()
 export class FacultyRepository implements IFacultyRepository {
+  private readonly _facultyEntity: Repository<FacultyEntity>;
+
   constructor(
     @InjectRepository(FacultyEntity)
-    private readonly _facultyEntity: Repository<FacultyEntity>,
-  ) {}
+    facultyRepository: Repository<FacultyEntity>,
+  ) {
+    this._facultyEntity = facultyRepository;
+  }
 
   async createFaculty(faculty: FacultyEntity): Promise<FacultyEntity> {
     return await this._facultyEntity.save(faculty);

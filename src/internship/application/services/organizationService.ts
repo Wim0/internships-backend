@@ -33,7 +33,6 @@ export class OrganizationService implements IOrganizationService {
 
       const organization = new OrganizationEntity();
       organization.name = createOrganizationDTO.name;
-      organization.country = createOrganizationDTO.country;
       organization.createdAt = currentDate;
 
       const organizationAlreadyExists =
@@ -71,7 +70,7 @@ export class OrganizationService implements IOrganizationService {
       const organizationDTO = new OrganizationDTO();
       organizationDTO.id = organization.id;
       organizationDTO.name = organization.name;
-      organizationDTO.country = organization.country;
+
       return organizationDTO;
     });
 
@@ -88,7 +87,6 @@ export class OrganizationService implements IOrganizationService {
     const organizationFound = new OrganizationDTO();
     organizationFound.id = organization.id;
     organizationFound.name = organization.name;
-    organizationFound.country = organization.country;
 
     return organizationFound;
   }

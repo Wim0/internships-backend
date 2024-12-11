@@ -1,7 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { OrganizationEntity } from './organizationEntity';
+import { UserEntity } from './userEntity';
 
-@Entity()
+@Entity('faculty')
 export class FacultyEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,4 +18,7 @@ export class FacultyEntity {
 
   @ManyToOne(() => OrganizationEntity, (organization) => organization.faculties)
   organization: OrganizationEntity;
+
+  @OneToMany(() => UserEntity, (user) => user.faculty)
+  users: UserEntity[];
 }

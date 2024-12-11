@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { OrganizationEntity } from './organizationEntity';
+import { FacultyEntity } from './facultyEntity';
 
 @Entity('user')
 export class UserEntity {
@@ -22,7 +23,7 @@ export class UserEntity {
   organizationId: number;
 
   @Column({ nullable: true })
-  careerId: number;
+  facultyId: number;
 
   @Column()
   isAdmin: boolean;
@@ -30,7 +31,7 @@ export class UserEntity {
   @Column()
   rol: string;
 
-  @Column() ß;
+  @Column()
   isVerified: boolean;
 
   @Column()
@@ -38,4 +39,7 @@ export class UserEntity {
 
   @ManyToOne(() => OrganizationEntity, (organization) => organization.users)
   organization: OrganizationEntity;
+
+  @ManyToOne(() => FacultyEntity, (faculty) => faculty.users)
+  faculty: FacultyEntity;
 }

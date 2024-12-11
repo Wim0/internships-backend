@@ -4,13 +4,17 @@ import { IFacultyRepository } from '../../domain/interfaces/IFacultyRepository';
 import { IFacultyService } from '../../domain/interfaces/IFacultyService';
 import { FacultyEntity } from '../../domain/entities/facultyEntity';
 import { CreateFacultyDTO } from '../models/createFacultyDTO';
+import TYPES from 'src/types';
 
 @Injectable()
 export class FacultyService implements IFacultyService {
+  private readonly _facultyRepository: IFacultyRepository;
+
   constructor(
-    @Inject('IFacultyRepository')
-    private readonly _facultyRepository: IFacultyRepository,
-  ) {}
+    @Inject(TYPES.IFacultyRepository) adminRepository: IFacultyRepository,
+  ) {
+    this._facultyRepository = adminRepository;
+  }
 
   async createFaculty(
     createFacultyDTO: CreateFacultyDTO,

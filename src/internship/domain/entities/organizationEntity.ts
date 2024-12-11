@@ -10,9 +10,6 @@ export class OrganizationEntity {
   name: string;
 
   @Column()
-  country: number;
-
-  @Column()
   createdAt: Date;
 
   @OneToMany(() => UserEntity, (user) => user.organization)

@@ -13,13 +13,26 @@ import { CreateUserDTO } from '../../application/models/createUserDTO';
 //Interfaces
 import { IUserRepository } from '../../domain/interfaces/IUserRepository';
 import { IUserService } from '../../domain/interfaces/IUserService';
+import { IOrganizationRepository } from '../../domain/interfaces/IOrganizationRepository';
+import { IFacultyRepository } from '../../domain/interfaces/IFacultyRepository';
 
 @Injectable()
 export class UserService implements IUserService {
   private readonly _userRepository: IUserRepository;
+  private readonly _organizationRepository: IOrganizationRepository;
+  private readonly _facultyRepository: IFacultyRepository;
 
-  constructor(@Inject(TYPES.IUserRepository) userRepository: IUserRepository) {
+  constructor(
+    @Inject(TYPES.IUserRepository)
+    userRepository: IUserRepository,
+    @Inject(TYPES.IOrganizationRepository)
+    organizationRepository: IOrganizationRepository,
+    @Inject(TYPES.IFacultyRepository)
+    facultyRepository: IFacultyRepository,
+  ) {
     this._userRepository = userRepository;
+    this._organizationRepository = organizationRepository;
+    this._facultyRepository = facultyRepository;
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<UserEntity> {
@@ -34,11 +47,31 @@ export class UserService implements IUserService {
       user.organizationId = createUserDTO.organizationId
         ? createUserDTO.organizationId
         : null;
-      user.careerId = createUserDTO.careerId ? createUserDTO.careerId : null;
+      user.facultyId = createUserDTO.facultyId ? createUserDTO.facultyId : null;
       user.isAdmin = createUserDTO.isAdmin ? true : false;
       user.rol = createUserDTO.rol;
       user.isVerified = false;
       user.createdAt = currentDate;
+
+      // Verifica si la organización y la facultad existen
+      if (user.organizationId) {
+        const organization =
+          await this._organizationRepository.findOrganizationById(
+            user.organizationId,
+          );
+        if (!organization) {
+          throw new NotFoundException('Organization not found');
+        }
+      }
+
+      if (user.facultyId) {
+        const faculty = await this._facultyRepository.findFacultyById(
+          user.facultyId,
+        );
+        if (!faculty) {
+          throw new NotFoundException('Faculty not found');
+        }
+      }
 
       const userAlreadyExists = await this._userRepository.findUserByEmail(
         createUserDTO.email,
@@ -73,7 +106,7 @@ export class UserService implements IUserService {
       userDTO.lastName = user.lastName;
       userDTO.email = user.email;
       userDTO.organizationId = user.organizationId;
-      userDTO.careerId = user.careerId;
+      userDTO.facultyId = user.facultyId;
       userDTO.isAdmin = user.isAdmin;
       userDTO.rol = user.rol;
       userDTO.isVerified = user.isVerified;

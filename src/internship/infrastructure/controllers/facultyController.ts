@@ -10,10 +10,14 @@ import {
 import { IFacultyService } from '../../domain/interfaces/IFacultyService';
 import { CreateFacultyDTO } from '../../application/models/createFacultyDTO';
 import { FacultyEntity } from '../../domain/entities/facultyEntity';
-
+import TYPES from '../../../types';
+import { Inject } from '@nestjs/common';
 @Controller('faculty')
 export class FacultyController {
-  constructor(private readonly _facultyService: IFacultyService) {}
+  constructor(
+    @Inject(TYPES.IFacultyService)
+    private readonly _facultyService: IFacultyService,
+  ) {}
 
   @Post()
   async createFaculty(

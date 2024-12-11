@@ -34,6 +34,13 @@ export class PracticeController {
     );
   }
 
+  @Get('user/:userId')
+  async findPracticesByUserId(
+    @Param('userId') userId: number,
+  ): Promise<PracticeEntity[]> {
+    return this._practiceService.findPracticesByUserId(userId);
+  }
+
   @Post()
   async createPractice(
     @Body() practice: PracticeEntity,

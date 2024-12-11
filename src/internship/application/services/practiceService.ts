@@ -21,6 +21,10 @@ export class PracticeService implements IPracticeService {
     return this._practiceRepository.findAllPractices();
   }
 
+  async findPracticesByUserId(userId: number): Promise<PracticeEntity[]> {
+    return this._practiceRepository.findPracticesByUserId(userId);
+  }
+
   async createPractice(practice: PracticeEntity): Promise<PracticeEntity> {
     return this._practiceRepository.createPractice(practice);
   }
